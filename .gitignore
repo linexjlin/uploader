@@ -1,0 +1,11 @@
+*~
+_*
+*.exe
+*swap
+*.o
+*.so
+*.a
+bin
+pkg
+*swp
+.svn
