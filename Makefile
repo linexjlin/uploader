@@ -8,3 +8,5 @@ linux:
 
 windows:
 	GOOS=windows GOARCH=amd64 go install -tags '$(BUILDTAGS)' uploader
+
+all: linux windows
