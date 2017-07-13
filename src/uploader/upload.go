@@ -33,6 +33,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	log.Println("method:", r.Method) //获取请求的方法
 
 	path := BasePath + r.URL.Path
+	filename := ""
 
 	if r.Method == "GET" {
 		if exists := isExists(path); exists {
@@ -54,6 +55,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 		}
 		defer file.Close()
 		//log.Fprintf(w, "%v", handler.Header)
+		filename = handler.Filename
 		newFilePath := path + "/" + handler.Filename
 		checkError(checkBackUp(newFilePath))
 		f, err := os.OpenFile(newFilePath, os.O_WRONLY|os.O_CREATE, 0666) // 此处假设当前目录下已存在test目录
@@ -64,6 +66,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 		defer f.Close()
 		io.Copy(f, file)
 	}
+	w.Write([]byte(`{"filename":"` + filename + `"}`))
 }
 
 func checkBackUp(fileName string) error {
